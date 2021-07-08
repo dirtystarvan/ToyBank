@@ -2,9 +2,6 @@ package ru.sbt.toybank;
 
 import java.util.Random;
 
-//есть сущность клиента
-//€вл€етс€ отдельным потоком. ћиниум 4 клиента.
-//клиент должен иметь возможность подать только одну за€вку увеличить или уменьшить баланс
 public class Client extends Thread {
     FrontEnd front;
 

@@ -1,6 +1,7 @@
 package ru.sbt.toybank;
 
-//есть сущность заявки, содержит имя потока (клиента), сумму, тип операции
+//сущность заявки
+
 public class Application {
     String clientName;
     long value;

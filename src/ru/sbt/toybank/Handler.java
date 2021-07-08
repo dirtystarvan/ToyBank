@@ -1,9 +1,5 @@
 package ru.sbt.toybank;
 
-//есть сущность обработчика заявок - постоянно опрашивает фронт на наличие заявок,
-//если заявка есть то получает и передает в бэк
-//является отдельным потоком. Минимум 2 обработчика.
-
 public class Handler extends Thread {
     private BackEnd back;
     private FrontEnd front;
@@ -18,6 +14,7 @@ public class Handler extends Thread {
     public void run() {
         while(!isInterrupted()) {
             Application currentApp = front.getApp();
+
             if (currentApp == null)
                 continue;
 
@@ -32,6 +29,9 @@ public class Handler extends Thread {
                             this.getName(), currentApp.clientName);
                     back.withdrawMoney(currentApp.value);
                     break;
+                default:
+                    System.out.printf("%s: получена заявка неизветсного типа по клиенту %s\n",
+                            this.getName(), currentApp.clientName);
             }
         }
     }
