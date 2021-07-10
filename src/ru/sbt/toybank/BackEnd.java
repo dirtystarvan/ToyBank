@@ -1,19 +1,25 @@
 package ru.sbt.toybank;
 
-public class BackEnd {
-    private long account;
+import java.util.concurrent.atomic.AtomicLong;
 
-    public synchronized void addMoney(long value) {
-        account += value;
-        System.out.printf("Back: Заявка выполнена! Добавлено %d. Текущее состояние счета: %d\n", value, account);
+public class BackEnd {
+    private AtomicLong account = new AtomicLong();
+
+    public void addMoney(long value) {
+        //account += value;
+        account.addAndGet(value);
+        System.out.printf("Back: Заявка выполнена! Добавлено %d. Текущее состояние счета: %d\n",
+                value, account.get());
     }
 
-    public synchronized void withdrawMoney(long value) {
-        if (value > account)
+    public void withdrawMoney(long value) {
+        if (value > account.get())
             System.out.println("Back: Заявка не выполнена! Недостаточно средств в банке!");
         else {
-            account -= value;
-            System.out.printf("Back: Заявка выполнена! Выдано клиенту %d. Текущее состояние счета: %d\n", value, account);
+            //account -= value;
+            account.addAndGet(value * (-1));
+            System.out.printf("Back: Заявка выполнена! Выдано клиенту %d. Текущее состояние счета: %d\n",
+                    value, account.get());
         }
     }
 }
