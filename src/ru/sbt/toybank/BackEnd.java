@@ -5,6 +5,10 @@ import java.util.concurrent.atomic.AtomicLong;
 public class BackEnd {
     private AtomicLong account = new AtomicLong();
 
+    public void warmup(long value) {
+        account.addAndGet(value);
+    }
+
     public void addMoney(long value) {
         //account += value;
         account.addAndGet(value);

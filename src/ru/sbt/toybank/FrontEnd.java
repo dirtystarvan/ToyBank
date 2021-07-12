@@ -1,7 +1,5 @@
 package ru.sbt.toybank;
 
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -13,36 +11,18 @@ public class FrontEnd {
     * Однако при возможном расширении количества элементов, на мой взгляд, выбор в сторону связанного списка оптимальнее
     * засчет того что работа с очередью ведется только с концом и началом, а у списка есть указатели на эти элементы
     */
+
     FrontEnd() {
         queue = new LinkedBlockingQueue<>(2);
     }
 
     public Application getApp() {
-//        synchronized (queue) {
-//            queue.notifyAll();
-//            return queue.poll();
-//        }
-        try {
-            return queue.take();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            return null;
+        synchronized (queue) {
+            return queue.poll();
         }
     }
 
     public void setApp(Application item) {
-//        synchronized (queue) {
-//            while (queue.size() > 2) {
-//                try {
-//                    queue.wait();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            queue.add(item);
-//        }
-
         try {
             queue.put(item);
         } catch (InterruptedException e) {
